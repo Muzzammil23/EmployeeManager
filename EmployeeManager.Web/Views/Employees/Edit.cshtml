@@ -1,0 +1,184 @@
+﻿@model EmployeeManager.Web.Models.EditEmployeeViewModel
+
+@{
+    ViewData["Title"] = "Edit Employee";
+}
+
+<h1>Edit Employee</h1>
+
+<div asp-validation-summary="ModelOnly"
+     class="text-danger">
+</div>
+@if (Model.HasExistingProfileImage)
+{
+    <div class="mb-3">
+        <p class="fw-bold">
+            Current Profile Image
+        </p>
+
+        <img src="@Url.Action(
+                                   "ProfileImage",
+                                   "Employees",
+                                   new { id = Model.Employee.Id })"
+             alt="@Model.Employee.FirstName @Model.Employee.LastName"
+             class="img-thumbnail"
+             width="250" />
+    </div>
+}
+
+@if (Model.HasExistingProfileImage)
+{
+    <div class="form-check mb-3">
+        <input asp-for="RemoveProfileImage"
+               class="form-check-input" />
+
+        <label asp-for="RemoveProfileImage"
+               class="form-check-label">
+            Remove current profile image
+        </label>
+    </div>
+}
+<form asp-controller="Employees"
+      asp-action="Edit"
+      asp-route-id="@Model.Employee.Id"
+      method="post"
+      enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label asp-for="Employee.EmployeeNumber"
+               class="form-label"></label>
+
+        <input asp-for="Employee.EmployeeNumber"
+               class="form-control" />
+
+        <span asp-validation-for="Employee.EmployeeNumber"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Employee.FirstName"
+               class="form-label"></label>
+
+        <input asp-for="Employee.FirstName"
+               class="form-control" />
+
+        <span asp-validation-for="Employee.FirstName"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Employee.LastName"
+               class="form-label"></label>
+
+        <input asp-for="Employee.LastName"
+               class="form-control" />
+
+        <span asp-validation-for="Employee.LastName"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Employee.Email"
+               class="form-label"></label>
+
+        <input asp-for="Employee.Email"
+               class="form-control" />
+
+        <span asp-validation-for="Employee.Email"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Employee.JobTitle"
+               class="form-label"></label>
+
+        <input asp-for="Employee.JobTitle"
+               class="form-control" />
+
+        <span asp-validation-for="Employee.JobTitle"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Employee.Department"
+               class="form-label"></label>
+
+        <input asp-for="Employee.Department"
+               class="form-control" />
+
+        <span asp-validation-for="Employee.Department"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Employee.Salary"
+               class="form-label"></label>
+
+        <input asp-for="Employee.Salary"
+               class="form-control" />
+
+        <span asp-validation-for="Employee.Salary"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Employee.DateHired"
+               class="form-label"></label>
+
+        <input asp-for="Employee.DateHired"
+               type="date"
+               class="form-control" />
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="Employee.IsActive"
+               class="form-check-input" />
+
+        <label asp-for="Employee.IsActive"
+               class="form-check-label"></label>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NewProfileImageFile"
+               class="form-label">
+            New Profile Image
+        </label>
+
+        <input asp-for="NewProfileImageFile"
+               type="file"
+               accept="image/jpeg,image/png,image/webp"
+               class="form-control" />
+
+        <span asp-validation-for="NewProfileImageFile"
+              class="text-danger"></span>
+    </div>
+
+    @if (Model.HasExistingProfileImage)
+    {
+        <div class="form-check mb-3">
+            <input asp-for="RemoveProfileImage"
+                   class="form-check-input" />
+
+            <label asp-for="RemoveProfileImage"
+                   class="form-check-label">
+                Remove current profile image
+            </label>
+        </div>
+    }
+
+    <button type="submit"
+            class="btn btn-primary">
+        Save Changes
+    </button>
+
+    <a asp-controller="Employees"
+       asp-action="Index"
+       class="btn btn-secondary">
+        Cancel
+    </a>
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

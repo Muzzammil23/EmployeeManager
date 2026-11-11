@@ -1,0 +1,82 @@
+﻿@model EmployeeManager.Models.Data.Employee
+
+@{
+    ViewData["Title"] = "Employee Details";
+}
+
+<h1>Employee Details</h1>
+@if (Model.ProfileImageData is not null &&
+     Model.ProfileImageData.Length > 0 && !string.IsNullOrWhiteSpace(Model.ProfileImageContentType))
+{
+    <div class="mb-3">
+        <img src="@Url.Action("ProfileImage", "Employees", 
+        new { id = Model.Id })" 
+        alt="@Model.FirstName @Model.LastName" 
+        class="img-thumbnail" width="250" />
+    </div>
+}
+else
+{
+    <p>No profile image available.</p>
+}
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Employee Number</th>
+            <td>@Model.EmployeeNumber</td>
+        </tr>
+
+        <tr>
+            <th>First Name</th>
+            <td>@Model.FirstName</td>
+        </tr>
+
+        <tr>
+            <th>Last Name</th>
+            <td>@Model.LastName</td>
+        </tr>
+
+        <tr>
+            <th>Email</th>
+            <td>@Model.Email</td>
+        </tr>
+
+        <tr>
+            <th>Job Title</th>
+            <td>@Model.JobTitle</td>
+        </tr>
+
+        <tr>
+            <th>Department</th>
+            <td>@Model.Department</td>
+        </tr>
+
+        <tr>
+            <th>Salary</th>
+            <td>@Model.Salary.ToString("N2")</td>
+        </tr>
+
+        <tr>
+            <th>Date Hired</th>
+            <td>@Model.DateHired.ToString("yyyy-MM-dd")</td>
+        </tr>
+
+        <tr>
+            <th>Active</th>
+            <td>@(Model.IsActive ? "Yes" : "No")</td>
+        </tr>
+    </tbody>
+</table>
+
+<a asp-controller="Employees"
+   asp-action="Edit"
+   asp-route-id="@Model.Id"
+   class="btn btn-warning">
+    Edit
+</a>
+
+<a asp-controller="Employees"
+   asp-action="Index"
+   class="btn btn-secondary">
+    Back
+</a>

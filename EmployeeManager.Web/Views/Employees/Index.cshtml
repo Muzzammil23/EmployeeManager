@@ -1,0 +1,195 @@
+﻿@model EmployeeManager.Web.Models.EmployeeIndexViewModel
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Employees</h1>
+
+    <a asp-controller="Employees"
+       asp-action="Create"
+       class="btn btn-success">
+        Create Employee
+    </a>
+</div>
+
+<form asp-controller="Employees"
+      asp-action="Index"
+      method="get"
+      class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <label asp-for="SearchTerm"
+               class="form-label">
+            Search
+        </label>
+
+        <input asp-for="SearchTerm"
+               class="form-control"
+               placeholder="Name, employee number or email" />
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Department"
+               class="form-label">
+            Department
+        </label>
+
+        <select asp-for="Department"
+                class="form-select">
+
+            <option value="">
+                All Departments
+            </option>
+
+            @foreach (var department in Model.Departments)
+            {
+                <option value="@department">
+                    @department
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="IsActive"
+               class="form-label">
+            Status
+        </label>
+
+        <select asp-for="IsActive"
+                class="form-select">
+            <option value="">
+                All Employees
+            </option>
+            <option value="true">
+                Active
+            </option>
+            <option value="false">
+                Inactive
+            </option>
+        </select>
+    </div>
+
+    <div class="col-md-2 d-flex align-items-end">
+        <button type="submit"
+                class="btn btn-primary me-2">
+            Search
+        </button>
+
+        <a asp-controller="Employees"
+           asp-action="Index"
+           class="btn btn-outline-secondary">
+            Clear
+        </a>
+    </div>
+</form>
+
+@if (Model.Employees.Count == 0)
+{
+    <div class="alert alert-info">
+        No employees matched your search.
+    </div>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Employee Number</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Job Title</th>
+                <th>Department</th>
+                <th>Salary</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var employee in Model.Employees)
+            {
+                <tr>
+                    <td>
+                        @if (employee.ProfileImageData is not null &&
+                             employee.ProfileImageData.Length > 0 &&
+                             !string.IsNullOrWhiteSpace(
+                                 employee.ProfileImageContentType))
+                        {
+                            <img src="@Url.Action(
+                                                                           "ProfileImage",
+                                                                           "Employees",
+                                                                           new { id = employee.Id })"
+                                 alt="@employee.FirstName @employee.LastName"
+                                 class="rounded"
+                                 width="60"
+                                 height="60" />
+                        }
+                        else
+                        {
+                            <span class="text-muted">
+                                No photo
+                            </span>
+                        }
+                    </td>
+
+                    <td>@employee.EmployeeNumber</td>
+
+                    <td>
+                        @employee.FirstName
+                        @employee.LastName
+                    </td>
+
+                    <td>@employee.Email</td>
+                    <td>@employee.JobTitle</td>
+                    <td>@employee.Department</td>
+
+                    <td>
+                        @employee.Salary.ToString("N2")
+                    </td>
+
+                    <td>
+                        @if (employee.IsActive)
+                        {
+                            <span class="badge text-bg-success">
+                                Active
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge text-bg-secondary">
+                                Inactive
+                            </span>
+                        }
+                    </td>
+
+                    <td class="text-nowrap">
+                        <a asp-controller="Employees"
+                           asp-action="Details"
+                           asp-route-id="@employee.Id"
+                           class="btn btn-sm btn-outline-primary">
+                            Details
+                        </a>
+
+                        <a asp-controller="Employees"
+                           asp-action="Edit"
+                           asp-route-id="@employee.Id"
+                           class="btn btn-sm btn-outline-warning">
+                            Edit
+                        </a>
+
+                        <a asp-controller="Employees"
+                           asp-action="Delete"
+                           asp-route-id="@employee.Id"
+                           class="btn btn-sm btn-outline-danger">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
